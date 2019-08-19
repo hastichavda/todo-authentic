@@ -1914,19 +1914,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {//    this.fetchTaskList();
-  },
   mounted: function mounted() {
     if (this.tasks) {
       this.list = this.tasks;
     }
   },
   methods: {
-    //    fetchTaskList() {
-    //        axios.get('api/tasks').then((res) => {
-    //            this.list = res.data;
-    //        });
-    //    },
     createTask: function createTask() {
       var _this = this;
 
@@ -1935,7 +1928,7 @@ __webpack_require__.r(__webpack_exports__);
         user_id: this.user.id
       };
       console.log(data);
-      axios.post('api/tasks', data).then(function (res) {
+      axios.post('/tasks', data).then(function (res) {
         _this.task.body = '';
         _this.edit = false;
 
@@ -1944,12 +1937,10 @@ __webpack_require__.r(__webpack_exports__);
         return console.error(err);
       });
     },
-    deleteTask: function deleteTask(id) {
+    deleteTask: function deleteTask(id, index) {
       var _this2 = this;
 
-      axios["delete"]('api/tasks/' + id).then(function (res) {
-        _this2.fetchTaskList();
-
+      axios["delete"]('/tasks' + id).then(function (res) {
         _this2.list.splice(index, 1);
       })["catch"](function (err) {
         return console.error(err);
@@ -6417,7 +6408,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.card {\n       width: 100%;\n}\n.delete {\n  margin-left:auto;\n}\n.bb {\n    margin: 0px 10% 0px 90%;\n}\n", ""]);
+exports.push([module.i, "\n.card {\r\n  width: 100%;\r\n  background: rgb(179, 225, 236);\n}\n.delete {\r\n  margin-left:auto;\n}\n.del {\r\n  margin: 0px 10% 0px 90%;\n}\r\n", ""]);
 
 // exports
 
@@ -38000,29 +37991,33 @@ var render = function() {
           { staticClass: "list-group" },
           [
             _vm.list.length === 0
-              ? _c("li", [_vm._v("There are no tasks yet!")])
+              ? _c("li", { staticClass: "list-group-item" }, [
+                  _vm._v("There are no tasks yet!")
+                ])
               : _vm._e(),
             _vm._v(" "),
             _vm._l(_vm.list, function(task, index) {
-              return _c("li", { key: index, staticClass: "list-group-item" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(task.body) +
-                    "\n                "
-                ),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-xs bb",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteTask(task.id)
+              return _c(
+                "li",
+                { key: index, staticClass: "list-group-item table-striped" },
+                [
+                  _vm._v(
+                    "\n             " + _vm._s(task.body) + "\n             "
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-xs del",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteTask(task.id, index)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ])
+                    },
+                    [_c("i", { staticClass: "fa fa-trash" })]
+                  )
+                ]
+              )
             })
           ],
           2
@@ -38037,11 +38032,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("div", { staticClass: "card-title" }, [
-        _c("h1", [_vm._v("My Tasks")])
-      ]),
-      _vm._v(" "),
-      _c("h4", [_vm._v("New Task")])
+      _c("div", { staticClass: "card-title" }, [_c("h1", [_vm._v("My Tasks")])])
     ])
   },
   function() {
@@ -38052,7 +38043,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Add")]
+        [_c("i", { staticClass: "fa fa-plus-square" })]
       )
     ])
   }
@@ -50206,32 +50197,11 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('task-list', __webpack_require__(/*! ./components/TaskList.vue */ "./resources/js/components/TaskList.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 var app = new Vue({
   el: '#app'
 });
@@ -50470,8 +50440,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\laragon\www\authentic\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\laragon\www\authentic\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\laragon\www\todo-authentic\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\laragon\www\todo-authentic\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
