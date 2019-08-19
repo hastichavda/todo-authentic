@@ -23,7 +23,7 @@
            <li v-if='list.length === 0'>There are no tasks yet!</li>
            <li class="list-group-item" v-for="(task, index) in list" :key="index">
                  {{ task.body }}
-                 <button @click="deleteTask(task.id)" class="btn btn-danger btn-xs bb">Delete</button>
+                 <button @click="deleteTask(task.id,index)" class="btn btn-danger btn-xs bb">Delete</button>
            </li>
        </ul>
      </div>
@@ -73,10 +73,10 @@
                    })
                    .catch((err) => console.error(err));
            },
-           deleteTask(id) {
+           deleteTask(id,index) {
                axios.delete('api/tasks/' + id)
                    .then((res) => {
-                       this.fetchTaskList()
+                    //    this.fetchTaskList()
                        this.list.splice(index,1)
                    })
                    .catch((err) => console.error(err));
